@@ -2,7 +2,7 @@
 % Please edit documentation in R/fa.R
 \name{fa}
 \alias{fa}
-\title{Generate a Font Awesome icon as an SVG}
+\title{Generate Font Awesome icons as SVGs}
 \usage{
 fa(
   name,
@@ -12,11 +12,26 @@ fa(
   stroke_width = NULL,
   stroke_opacity = NULL,
   height = NULL,
-  position = NULL
+  width = NULL,
+  margin_right = NULL,
+  position = NULL,
+  title = NULL,
+  a11y = c("desc", "sem", "none")
 )
 }
 \arguments{
-\item{name}{The name of the Font Awesome icon.}
+\item{name}{The name of the Font Awesome icon. This could be as a short name
+(e.g., \code{"npm"}, \code{"drum"}, etc.), or, a full name (e.g., \code{"fab fa-npm"},
+\code{"fas fa-drum"}, etc.). The names should correspond to current Version 5
+Font Awesome names. A list of short and full names can be accessed through
+the \code{\link[=fa_metadata]{fa_metadata()}} function with \code{fa_metadata()$icon_names} and
+\code{fa_metadata()$icon_names_full}. If supplying a Version 4 icon name, it
+will be internally translated to the Version 5 icon name and a Version 5
+icon will be returned. A data frame containing the short names that changed
+from version 4 (\code{v4_name}) to version 5 (\code{v5_name}) can be obtained by
+using \code{fa_metadata()$v4_v5_name_tbl}. If multiple names are provided as
+a character vector, then multiple icons will be produced by concatenating
+together the SVG tags.}
 
 \item{fill, fill_opacity}{The fill color of the icon can be set with \code{fill}.
 If not provided then the default value of \code{"currentColor"} is applied so
@@ -30,19 +45,35 @@ default, the stroke width is very small at \code{"1px"} so a size adjustment
 with \code{"stroke_width"} can be useful. The \code{"stroke_opacity"} value can be
 any decimal values between \code{0} and \code{1} (bounds included).}
 
-\item{height}{The absolute height of the rendered SVG. If nothing is provided
-then a default value of \code{"0.75em"} will be applied.}
+\item{height, width}{The height and width style attributes of the rendered
+SVG. If nothing is provided for \code{height} then a default value of \code{"1em"}
+will be applied. If a \code{width} isn't given, then it will be calculated in
+units of \code{"em"} on the basis of the icon's SVG \code{"viewBox"} dimensions.}
+
+\item{margin_right}{The length value for the margin that's right of the icon.
+By default, \code{"0.2rem"} is used.}
 
 \item{position}{The value for the \code{position} style attribute. By default,
 \code{"relative"} is used here.}
+
+\item{title}{An option for populating the SVG \code{'title'} attribute, which
+provides on-hover text for the icon. By default, no title text is given to
+the icon. If \code{a11y == "semantic"} then title text will be
+automatically given to the rendered icon, however, providing text here
+will override that.}
+
+\item{a11y}{Cases that distinguish the role of the icon and inform which
+accessibility attributes to be used. Icons can either be \code{"desc"}
+(decorative, the default case) or \code{"sem"} (semantic). Using \code{"none"} will
+result in no accessibility features for the icon.}
 }
 \value{
-A \code{fontawesome} object that is the styled Font Awesome icon.
+A \code{fontawesome} object.
 }
 \description{
-Add a Font Awesome icon as SVG contained within \verb{<svg>...</svg>}. We can
-optionally set certain style attributes. The \code{fa()} function can be used
-directly within inline evaluations of R code in R Markdown documents.
+Add one or more Font Awesome icons as SVGs contained within \verb{<svg>...</svg>}.
+We can optionally set certain style attributes. The \code{fa()} function can be
+used directly within inline evaluations of R code in R Markdown documents.
 }
 \examples{
 if (interactive()) {
