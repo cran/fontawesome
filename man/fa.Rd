@@ -13,10 +13,11 @@ fa(
   stroke_opacity = NULL,
   height = NULL,
   width = NULL,
+  margin_left = NULL,
   margin_right = NULL,
   position = NULL,
   title = NULL,
-  a11y = c("desc", "sem", "none")
+  a11y = c("deco", "sem", "none")
 )
 }
 \arguments{
@@ -29,9 +30,7 @@ the \code{\link[=fa_metadata]{fa_metadata()}} function with \code{fa_metadata()$
 will be internally translated to the Version 5 icon name and a Version 5
 icon will be returned. A data frame containing the short names that changed
 from version 4 (\code{v4_name}) to version 5 (\code{v5_name}) can be obtained by
-using \code{fa_metadata()$v4_v5_name_tbl}. If multiple names are provided as
-a character vector, then multiple icons will be produced by concatenating
-together the SVG tags.}
+using \code{fa_metadata()$v4_v5_name_tbl}.}
 
 \item{fill, fill_opacity}{The fill color of the icon can be set with \code{fill}.
 If not provided then the default value of \code{"currentColor"} is applied so
@@ -50,8 +49,10 @@ SVG. If nothing is provided for \code{height} then a default value of \code{"1em
 will be applied. If a \code{width} isn't given, then it will be calculated in
 units of \code{"em"} on the basis of the icon's SVG \code{"viewBox"} dimensions.}
 
-\item{margin_right}{The length value for the margin that's right of the icon.
-By default, \code{"0.2rem"} is used.}
+\item{margin_left, margin_right}{The length value for the margin that's either
+left or right of the icon. By default, \code{"auto"} is used for both
+properties. If space is needed on either side then a length of \code{"0.2em"} is
+recommended as a starting point.}
 
 \item{position}{The value for the \code{position} style attribute. By default,
 \code{"relative"} is used here.}
@@ -63,7 +64,7 @@ automatically given to the rendered icon, however, providing text here
 will override that.}
 
 \item{a11y}{Cases that distinguish the role of the icon and inform which
-accessibility attributes to be used. Icons can either be \code{"desc"}
+accessibility attributes to be used. Icons can either be \code{"deco"}
 (decorative, the default case) or \code{"sem"} (semantic). Using \code{"none"} will
 result in no accessibility features for the icon.}
 }

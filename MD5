@@ -1,8 +1,8 @@
-8b6a2acba638111f0e1b58c88466bb66 *DESCRIPTION
+28329dc27fbaaa942743cff0239492bd *DESCRIPTION
 d866293400ec332dd12578e29b621f99 *LICENSE
 b312a2b4d8e71241a31de3cdb7b66776 *NAMESPACE
-b008a43a136482fc01efa70b7eb89645 *NEWS.md
-a4ebbcf5ba56e8b256218f1799316820 *R/fa.R
+7f68fc3434402645e49fe88096c88223 *NEWS.md
+9df7a3d119d7dc17c31af9dc940493f4 *R/fa.R
 998ae3e79e13d3dc427b6b141615e727 *R/fa_brands.R
 13243ddc2b3fd0846f90c50d7d3c73af *R/fa_html_dependency.R
 0109810a4ee187b5aad335f2f5b64f74 *R/fa_i.R
@@ -24,7 +24,7 @@ c55205bce667f5d812354fd1353e7389 *inst/fontawesome/css/v4-shims.min.css
 099a9556e1a63ece24f8a99859c94c7d *inst/fontawesome/webfonts/fa-brands-400.woff
 7124eb50fc8227c78269f2d995637ff5 *inst/fontawesome/webfonts/fa-regular-400.woff
 9fe5a17c8ab036d20e6c5ba3fd2ac511 *inst/fontawesome/webfonts/fa-solid-900.woff
-955e5507a15d5cb32eef3d6c78f06e76 *man/fa.Rd
+92f836db525ca1166f7ec700f4ef8e45 *man/fa.Rd
 057ed300680238cd6dfcde1cd1ed1c77 *man/fa_html_dependency.Rd
 29e2ed49ccd7c1402c024d37cb8902d3 *man/fa_i.Rd
 e4e1da528ca6b162e7b948e5a10842f9 *man/fa_metadata.Rd
@@ -34,4 +34,4 @@ e78a047f8932657efff9ef0cfd3845b2 *man/fa_png.Rd
 a99f2c5356f0f525f85db8fd7ce2f9fd *man/figures/logo.svg
 9ae00bbb6e9c3f83ded656fb0f04353b *man/print.fontawesome.Rd
 684d2f9319d015be6fcaf817852c30a6 *tests/testthat.R
-a371e3eee704d164c06d9f096a45712c *tests/testthat/test-fa_icon.R
+27ccf22522dbbf16a04b73c1c343dce4 *tests/testthat/test-fa_icon.R

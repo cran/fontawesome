@@ -13,9 +13,7 @@
 #'   will be internally translated to the Version 5 icon name and a Version 5
 #'   icon will be returned. A data frame containing the short names that changed
 #'   from version 4 (`v4_name`) to version 5 (`v5_name`) can be obtained by
-#'   using `fa_metadata()$v4_v5_name_tbl`. If multiple names are provided as
-#'   a character vector, then multiple icons will be produced by concatenating
-#'   together the SVG tags.
+#'   using `fa_metadata()$v4_v5_name_tbl`.
 #' @param fill,fill_opacity The fill color of the icon can be set with `fill`.
 #'   If not provided then the default value of `"currentColor"` is applied so
 #'   that the SVG fill matches the color of the parent HTML element's `color`
@@ -30,8 +28,10 @@
 #'   SVG. If nothing is provided for `height` then a default value of `"1em"`
 #'   will be applied. If a `width` isn't given, then it will be calculated in
 #'   units of `"em"` on the basis of the icon's SVG `"viewBox"` dimensions.
-#' @param margin_right The length value for the margin that's right of the icon.
-#'   By default, `"0.2rem"` is used.
+#' @param margin_left,margin_right The length value for the margin that's either
+#'   left or right of the icon. By default, `"auto"` is used for both
+#'   properties. If space is needed on either side then a length of `"0.2em"` is
+#'   recommended as a starting point.
 #' @param position The value for the `position` style attribute. By default,
 #'   `"relative"` is used here.
 #' @param title An option for populating the SVG `'title'` attribute, which
@@ -40,7 +40,7 @@
 #'   automatically given to the rendered icon, however, providing text here
 #'   will override that.
 #' @param a11y Cases that distinguish the role of the icon and inform which
-#'   accessibility attributes to be used. Icons can either be `"desc"`
+#'   accessibility attributes to be used. Icons can either be `"deco"`
 #'   (decorative, the default case) or `"sem"` (semantic). Using `"none"` will
 #'   result in no accessibility features for the icon.
 #'
@@ -64,16 +64,17 @@ fa <- function(name,
                stroke_opacity = NULL,
                height = NULL,
                width = NULL,
+               margin_left = NULL,
                margin_right = NULL,
                position = NULL,
                title = NULL,
-               a11y = c("desc", "sem", "none")) {
+               a11y = c("deco", "sem", "none")) {
 
   if (length(name) != 1) {
     stop("The number of icons specified in `name` must be 1.", call. = FALSE)
   }
 
-  a11y <- match.arg(a11y, choices = c("desc", "sem", "none"))
+  a11y <- match.arg(a11y, choices = c("deco", "sem", "none"))
 
   if (name %in% fa_tbl$name) {
 
@@ -165,14 +166,14 @@ fa <- function(name,
   }
 
   # Generate accessibility attributes if either of
-  # the "desc" or "sem" cases are chosen
+  # the "deco" or "sem" cases are chosen
   if (a11y == "none") {
 
     if (!is.null(title)) {
       title_tag <- paste0("<title>", htmlEscape(title), "</title>")
     }
 
-  } else if (a11y == "desc") {
+  } else if (a11y == "deco") {
 
     extra_attrs <- paste0(extra_attrs, "aria-hidden=\"true\" role=\"img\" ")
 
@@ -208,7 +209,8 @@ fa <- function(name,
       "height:", height_attr, ";",
       "width:", width_attr, ";",
       "vertical-align:-0.125em;",
-      "margin-right:0.2em;",
+      "margin-left:", margin_left %||% "auto", ";",
+      "margin-right:", margin_right %||% "auto", ";",
       "font-size:inherit;",
       "fill:", fill %||% "currentColor", ";",
       "overflow:visible;",
