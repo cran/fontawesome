@@ -26,7 +26,7 @@
 #'   custom `html_dependency` object is useful when you have paid icons from
 #'   Font Awesome or would otherwise like to customize exactly which icon assets
 #'   are used (e.g., woff, woff2, eot, etc.). By default, this is `NULL` where
-#'   the function interally generates an `html_dependency`.
+#'   the function internally generates an `html_dependency`.
 #' @param verify_fa An option to verify the provided icon `name`. If `TRUE` (the
 #'   default), internal checks will take place and issue messages should the
 #'   `name` is a Font Awesome 4 icon name (the message will provide the Version
@@ -47,7 +47,7 @@
 fa_i <- function(name,
                  class = NULL,
                  ...,
-                 html_dependency = NULL,
+                 html_dependency = fa_html_dependency(),
                  verify_fa = TRUE) {
 
   prefix <- "fa"
@@ -61,43 +61,32 @@ fa_i <- function(name,
     prefix_class <- "fab"
   }
 
-  iconClass <- paste0(prefix_class, " ", prefix, "-", name)
+  if (grepl("^fa[a-z] fa-[a-z-]+$", name)) {
+    # Case where fully-qualified icon name is provided
 
-  if (!is.null(class)) {
-    iconClass <- paste(iconClass, class)
-  }
+    iconClass <- name
 
-  icon_tag <-
-    htmltools::tags$i(
-      class = iconClass,
-      role = "presentation",
-      `aria-label` = paste(name, "icon"),
-      ...
-    )
+  } else {
+    # Case where short icon name is provided
 
-  if (!is.null(html_dependency)) {
+    iconClass <- paste0(prefix_class, " ", prefix, "-", name)
 
-    if (!inherits(html_dependency, "html_dependency")) {
-
-      # Stop the function if the object isn't
-      # actually an `html_dependency`
-      stop(
-        "The object supplied to `htmlDependency` must be an object ",
-        "of class `html_dependency`:\n",
-        "* Use `htmltools::htmlDependency() to generate the object\n",
-        "* Ensure that version number is set higher than any other dependency of the same type",
-        call. = FALSE
-      )
+    if (!is.null(class)) {
+      iconClass <- paste(iconClass, class)
     }
-
-    icon_tag <- htmltools::attachDependencies(icon_tag, html_dependency)
-    icon_tag <- htmltools::browsable(icon_tag)
-
-    return(icon_tag)
   }
+
+  icon_tag <- browsable(tags$i(
+    class = iconClass,
+    role = "presentation",
+    `aria-label` = paste(gsub("^fa[a-z]* fa-", "", name), "icon"),
+    ...
+  ))
+
+  icon_tag <- attachDependencies(icon_tag, html_dependency)
 
   # Perform verifications on `name` if `verify_fa` is TRUE
-  if (verify_fa) {
+  if (verify_fa && identical(html_dependency, fa_html_dependency())) {
 
     # Determine if the `name` is a Font Awesome v4
     # icon name and provide a message
@@ -108,16 +97,16 @@ fa_i <- function(name,
       v5_name <- fa_tbl[fa_tbl$v4_name == name, ][1, "name"]
       v5_name_full <- fa_tbl[fa_tbl$v4_name == name, ][1, "full_name"]
 
-      # State that the v4 icon name should be changed to a v5 one
+      # State that the v4 icon name should be changed to a v6 one
       message(
-        "The `name` provided ('", name ,"') is deprecated in Font Awesome 5:\n",
+        "The `name` provided ('", name ,"') is deprecated in Font Awesome 6:\n",
         "* please consider using '", v5_name, "' or '", v5_name_full, "' instead\n",
         "* use the `verify_fa = FALSE` to deactivate these messages"
       )
     }
 
     # Provide a message if the icon name can't be resolved from
-    # any Font Awesome 4 or 5 names
+    # any Font Awesome 4 or 6 names
     if (!(name %in% fa_tbl$full_name) &&
         !(name %in% fa_tbl$name) &&
         !(name %in% fa_tbl$v4_name)
@@ -130,17 +119,5 @@ fa_i <- function(name,
     }
   }
 
-  icon_tag <-
-    htmltools::attachDependencies(
-      icon_tag,
-      htmltools::htmlDependency(
-        name = "font-awesome",
-        version = fa_version,
-        src = "fontawesome",
-        package = "fontawesome",
-        stylesheet = c("css/all.min.css", "css/v4-shims.min.css")
-      )
-    )
-
-  htmltools::browsable(icon_tag)
+  icon_tag
 }
